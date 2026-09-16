@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Sreshth Tiwari — LLM-Augmented Robot Navigation"
+  >
+
+  <title>Projects</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #080808;
+      --text: #f4f4f0;
+      --muted: rgba(244, 244, 240, 0.48);
+      --faint: rgba(244, 244, 240, 0.09);
+      --line: rgba(244, 244, 240, 0.75);
+      --green: #8ccf9c;
+      --red: #df7e73;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      cursor: none;
+    }
+
+    a,
+    button {
+      color: inherit;
+      font: inherit;
+    }
+
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 28px 34px;
+
+      mix-blend-mode: difference;
+    }
+
+    .logo {
+      color: white;
+      text-decoration: none;
+
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .menu-button {
+      border: 0;
+      background: transparent;
+      color: white;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      cursor: none;
+    }
+
+    .menu-button span {
+      display: inline-block;
+      margin-left: 5px;
+
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover span {
+      transform: rotate(90deg);
+    }
+
+
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+
+      background: #101010;
+
+      display: flex;
+      align-items: center;
+
+      padding: 8vw;
+
+      transform: translateY(-100%);
+
+      transition:
+        transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .menu.open {
+      transform: translateY(0);
+    }
+
+    .menu-close {
+      position: absolute;
+      right: 34px;
+      top: 28px;
+
+      border: 0;
+      background: transparent;
+      color: white;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+    }
+
+    .menu nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu nav a {
+      width: fit-content;
+
+      color: white;
+      text-decoration: none;
+
+      font-family: "Playfair Display", serif;
+      font-size: clamp(48px, 7vw, 110px);
+      line-height: 0.95;
+
+      opacity: 0.4;
+
+      transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+    }
+
+    .menu nav a:hover {
+      opacity: 1;
+      transform: translateX(14px);
+    }
+
+
+    .story {
+      position: relative;
+      height: 720vh;
+    }
+
+    .stage {
+      position: sticky;
+      top: 0;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(255,255,255,0.035),
+          transparent 55%
+        ),
+        var(--bg);
+    }
+
+
+    .project-label {
+      position: absolute;
+      top: 90px;
+      left: 34px;
+      z-index: 20;
+
+      font-size: 9px;
+      line-height: 1.6;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .project-label strong {
+      display: block;
+
+      color: var(--text);
+      font-weight: 500;
+    }
+
+/* adapted from ChatGPT */
+/* builds navigation map with css grid lines using two linear gradients
+   grid-wrap controls map size and later shrinks and moves it during project reveal */
+    .grid-wrap {
+      position: absolute;
+
+      width: min(76vw, 1100px);
+      height: min(66vh, 680px);
+
+      left: 50%;
+      top: 53%;
+
+      transform: translate(-50%, -50%);
+
+      transition:
+        width 900ms cubic-bezier(0.76, 0, 0.24, 1),
+        height 900ms cubic-bezier(0.76, 0, 0.24, 1),
+        left 900ms cubic-bezier(0.76, 0, 0.24, 1),
+        transform 900ms cubic-bezier(0.76, 0, 0.24, 1),
+        opacity 600ms ease;
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+
+      border: 1px solid var(--faint);
+
+      background-image:
+        linear-gradient(
+          to right,
+          var(--faint) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          var(--faint) 1px,
+          transparent 1px
+        );
+
+      background-size:
+        calc(100% / 12)
+        calc(100% / 8);
+
+      overflow: hidden;
+    }
+
+    .grid::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at center,
+          transparent 35%,
+          rgba(8,8,8,0.35) 100%
+        );
+    }
+
+
+    #path-svg {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: visible;
+      z-index: 4;
+
+      pointer-events: none;
+    }
+
+    .route {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      vector-effect: non-scaling-stroke;
+    }
+
+    #original-path {
+      stroke: rgba(244, 244, 240, 0.8);
+    }
+
+    #new-path {
+      stroke: var(--green);
+    }
+
+
+    .marker {
+      position: absolute;
+      z-index: 6;
+
+      transform: translate(-50%, -50%);
+
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .marker::before {
+      content: "";
+
+      display: block;
+
+      width: 8px;
+      height: 8px;
+
+      margin: 0 auto 8px;
+
+      border-radius: 50%;
+
+      background: white;
+      box-shadow: 0 0 18px rgba(255,255,255,0.65);
+    }
+
+    .start-marker {
+      left: 8.33%;
+      top: 81.25%;
+    }
+
+    .goal-marker {
+      left: 91.66%;
+      top: 18.75%;
+    }
+
+    .goal-marker::before {
+      background: var(--green);
+
+      box-shadow:
+        0 0 20px rgba(140, 207, 156, 0.8);
+    }
+
+/* adapted from ChatGPT */
+/* builds robot from positioned css shapes
+   robot position and rotation are later updated from points and angles along svg path */
+    #robot {
+      position: absolute;
+      left: 8.33%;
+      top: 81.25%;
+
+      width: 34px;
+      height: 34px;
+
+      z-index: 12;
+
+      transform:
+        translate(-50%, -50%)
+        rotate(0deg);
+
+      transition: filter 250ms ease;
+
+      filter:
+        drop-shadow(
+          0 0 10px rgba(255,255,255,0.25)
+        );
+    }
+
+    .robot-body {
+      position: absolute;
+      inset: 5px;
+
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 7px;
+
+      background: #111;
+    }
+
+    .robot-eye {
+      position: absolute;
+      top: 12px;
+
+      width: 3px;
+      height: 3px;
+
+      border-radius: 50%;
+
+      background: white;
+    }
+
+    .robot-eye.left {
+      left: 12px;
+    }
+
+    .robot-eye.right {
+      right: 12px;
+    }
+
+    .robot-direction {
+      position: absolute;
+
+      left: 50%;
+      top: -4px;
+
+      width: 0;
+      height: 0;
+
+      transform: translateX(-50%);
+
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 6px solid white;
+    }
+
+
+    #obstacle {
+      position: absolute;
+
+      left: 58.33%;
+      top: 50%;
+
+      width: 8.33%;
+      height: 25%;
+
+      z-index: 8;
+
+      transform:
+        translate(-50%, -300%)
+        scaleY(0.85);
+
+      opacity: 0;
+
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          rgba(223,126,115,0.85),
+          rgba(223,126,115,0.85) 7px,
+          rgba(110,55,50,0.85) 7px,
+          rgba(110,55,50,0.85) 14px
+        );
+
+      border: 1px solid rgba(255,255,255,0.25);
+
+      box-shadow:
+        0 15px 30px rgba(0,0,0,0.5);
+    }
+
+    #obstacle.visible {
+      animation:
+        obstacleDrop
+        500ms
+        cubic-bezier(0.2, 0.9, 0.3, 1.2)
+        forwards;
+    }
+
+
+    @keyframes obstacleDrop {
+      0% {
+        transform:
+          translate(-50%, -300%)
+          scaleY(0.85);
+        opacity: 0;
+      }
+
+      75% {
+        transform:
+          translate(-50%, -45%)
+          scaleY(1.08);
+        opacity: 1;
+      }
+
+      100% {
+        transform:
+          translate(-50%, -50%)
+          scaleY(1);
+        opacity: 1;
+      }
+    }
+
+
+    .scene-copy {
+      position: absolute;
+      z-index: 30;
+
+      pointer-events: none;
+
+      opacity: 0;
+      transform: translateY(20px);
+
+      transition:
+        opacity 450ms ease,
+        transform 450ms ease;
+    }
+
+    .scene-copy.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scene-copy h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(40px, 5.8vw, 92px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .scene-copy p {
+      margin-top: 20px;
+
+      max-width: 360px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    #plan-copy {
+      left: 7vw;
+      top: 50%;
+
+      transform: translateY(calc(-50% + 20px));
+    }
+
+    #plan-copy.visible {
+      transform: translateY(-50%);
+    }
+
+    #change-copy {
+      left: 50%;
+      top: 50%;
+
+      width: 100%;
+
+      text-align: center;
+
+      transform:
+        translate(-50%, calc(-50% + 20px));
+    }
+
+    #change-copy.visible {
+      transform: translate(-50%, -50%);
+    }
+
+    #change-copy p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #adapt-copy {
+      right: 7vw;
+      top: 50%;
+
+      text-align: right;
+
+      transform: translateY(calc(-50% + 20px));
+    }
+
+    #adapt-copy.visible {
+      transform: translateY(-50%);
+    }
+
+    #adapt-copy p {
+      margin-left: auto;
+    }
+
+/* adapted from ChatGPT */
+/* creates terminal panel for replanning sequence
+   visible classes fade panel and individual terminal lines in as scroll progress increases */
+    #terminal {
+      position: absolute;
+
+      right: 5vw;
+      bottom: 7vh;
+
+      width: min(360px, 32vw);
+
+      z-index: 30;
+
+      padding: 18px 20px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+      background:
+        rgba(10,10,10,0.78);
+
+      backdrop-filter: blur(14px);
+
+      opacity: 0;
+
+      transform: translateY(15px);
+
+      transition:
+        opacity 400ms ease,
+        transform 400ms ease;
+    }
+
+    #terminal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .terminal-title {
+      padding-bottom: 12px;
+      margin-bottom: 13px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.1);
+
+      color: var(--muted);
+
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .terminal-line {
+      min-height: 20px;
+
+      color: rgba(255,255,255,0.6);
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+      font-size: 10px;
+      line-height: 1.8;
+
+      opacity: 0;
+
+      transition: opacity 250ms ease;
+    }
+
+    .terminal-line.visible {
+      opacity: 1;
+    }
+
+    .terminal-line.active {
+      color: var(--green);
+    }
+
+/* adapted from ChatGPT */
+/* keeps goal message hidden with opacity and scale
+   visible class fades message in and scales it up when robot reaches end of route */
+    #goal-message {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      z-index: 40;
+
+      transform:
+        translate(-50%, -50%)
+        scale(0.96);
+
+      text-align: center;
+
+      opacity: 0;
+
+      transition:
+        opacity 500ms ease,
+        transform 500ms ease;
+    }
+
+    #goal-message.visible {
+      opacity: 1;
+
+      transform:
+        translate(-50%, -50%)
+        scale(1);
+    }
+
+    #goal-message span {
+      display: block;
+
+      margin-bottom: 12px;
+
+      color: var(--green);
+
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    #goal-message h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(52px, 8vw, 125px);
+      font-weight: 500;
+
+      letter-spacing: -0.05em;
+    }
+
+
+    #project-reveal {
+      position: absolute;
+      inset: 0;
+
+      z-index: 50;
+
+      display: flex;
+      align-items: center;
+
+      padding: 7vw;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition: opacity 700ms ease;
+    }
+
+    #project-reveal.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .project-info {
+      width: 42%;
+    }
+
+    .project-number {
+      display: block;
+
+      margin-bottom: 22px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .project-info h1 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(50px, 6.4vw, 100px);
+      font-weight: 500;
+
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+    }
+
+    .project-info h1 em {
+      font-weight: 500;
+    }
+
+    .project-description {
+      max-width: 470px;
+
+      margin-top: 32px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin-top: 25px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.14);
+
+      border-radius: 100px;
+
+      color: rgba(255,255,255,0.65);
+
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .project-link {
+      display: inline-block;
+
+      margin-top: 36px;
+      padding-bottom: 5px;
+
+      border-bottom: 1px solid white;
+
+      color: white;
+      text-decoration: none;
+
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+
+      transition:
+        opacity 200ms ease,
+        transform 200ms ease;
+    }
+
+    .project-link:hover {
+      opacity: 0.6;
+      transform: translateX(5px);
+    }
+
+
+    .github-section {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px;
+
+      background: #080808;
+
+      text-align: center;
+    }
+
+    .github-inner {
+      max-width: 1100px;
+    }
+
+    .github-small {
+      display: block;
+
+      margin-bottom: 26px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .github-section h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(52px, 8vw, 125px);
+      font-weight: 500;
+
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+    }
+
+    .github-section h2 em {
+      font-weight: 500;
+    }
+
+    .github-link {
+      display: inline-block;
+
+      margin-top: 45px;
+
+      color: white;
+      text-decoration: none;
+
+      font-size: 12px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+
+      border-bottom: 1px solid white;
+
+      padding-bottom: 6px;
+
+      transition:
+        transform 300ms ease,
+        opacity 300ms ease;
+    }
+
+    .github-link:hover {
+      transform: scale(1.06);
+      opacity: 0.7;
+    }
+
+
+    #cursor {
+      position: fixed;
+
+      left: 0;
+      top: 0;
+
+      z-index: 5000;
+
+      display: flex;
+      align-items: center;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition: opacity 200ms ease;
+    }
+
+    #cursor.visible {
+      opacity: 1;
+    }
+
+    .cursor-circle {
+      width: 28px;
+      height: 28px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.65);
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cursor-dot {
+      width: 3px;
+      height: 3px;
+
+      border-radius: 50%;
+
+      background: white;
+    }
+
+    #cursor-text {
+      margin-left: 11px;
+
+      white-space: nowrap;
+
+      color: white;
+
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+/* adapted from ChatGPT */
+
+/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
+
+/* detects screens below 700px using media query, hides mouse cursor,
+   resizes layout, and displays touch-based image switch button */
+
+    @media (max-width: 760px) {
+      body {
+        cursor: auto;
+      }
+
+      #cursor {
+        display: none;
+      }
+
+      .site-header {
+        padding: 22px;
+      }
+
+      .project-label {
+        top: 75px;
+        left: 22px;
+      }
+
+      .grid-wrap {
+        width: 92vw;
+        height: 54vh;
+        top: 52%;
+      }
+
+      #plan-copy,
+      #adapt-copy {
+        left: 24px;
+        right: auto;
+        top: 22%;
+
+        width: calc(100% - 48px);
+
+        text-align: left;
+      }
+
+      #plan-copy p,
+      #adapt-copy p {
+        margin-left: 0;
+      }
+
+      #terminal {
+        right: 20px;
+        bottom: 4vh;
+
+        width: calc(100% - 40px);
+      }
+
+      #project-reveal {
+        align-items: flex-start;
+
+        padding: 120px 24px 40px;
+      }
+
+      .project-info {
+        width: 100%;
+      }
+
+      .project-info h1 {
+        font-size: clamp(50px, 16vw, 80px);
+      }
+
+      .github-section {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">Sreshth Tiwari</a>
+
+    <button class="menu-button" id="menu-open">
+      Menu <span>+</span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu">
+
+    <button class="menu-close" id="menu-close">
+      Close ×
+    </button>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+  </div>
+
+  <section class="story" id="story">
+
+    <div class="stage">
+
+      <div class="project-label">
+        <strong>LLM-Augmented Robot Navigation</strong>
+      </div>
+      <!-- adapted from ChatGPT -->
+      <!-- defines original and replanned routes as svg paths on top of navigation grid
+           javascript uses path geometry to draw routes and move robot along same coordinates -->
+      <div class="grid-wrap" id="grid-wrap">
+
+        <div class="grid"></div>
+
+        <svg
+          id="path-svg"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
+        >
+          <path
+            id="original-path"
+            class="route"
+            d="
+              M 100 650
+              L 250 650
+              L 250 500
+              L 450 500
+              L 450 400
+              L 700 400
+              L 700 250
+              L 900 250
+              L 900 150
+              L 1100 150
+            "
+          />
+
+          <path
+            id="new-path"
+            class="route"
+            d="
+              M 540 400
+              L 540 600
+              L 820 600
+              L 820 350
+              L 900 350
+              L 900 150
+              L 1100 150
+            "
+          />
+        </svg>
+
+        <div class="marker start-marker">
+          Start
+        </div>
+
+        <div class="marker goal-marker">
+          Goal
+        </div>
+
+        <div id="robot">
+          <div class="robot-body"></div>
+          <div class="robot-eye left"></div>
+          <div class="robot-eye right"></div>
+          <div class="robot-direction"></div>
+        </div>
+
+        <div id="obstacle"></div>
+
+      </div>
+
+      <div
+        class="scene-copy"
+        id="plan-copy"
+      >
+        <h2>Start with<br>a plan</h2>
+
+        <p>
+          A* algorithm finds an efficient path through a
+          known environment
+        </p>
+      </div>
+
+      <div
+        class="scene-copy"
+        id="change-copy"
+      >
+        <h2>But the environment<br><em>changes!</em></h2>
+
+        <p>
+          An unexpected obstacle makes the
+          original path invalid.
+        </p>
+      </div>
+
+      <div
+        class="scene-copy"
+        id="adapt-copy"
+      >
+        <h2>Reason and Adapt</h2>
+
+        <p>
+          An LLM reasoning layer looks at the change and finds a new route.
+        </p>
+      </div>
+
+      <div id="terminal">
+
+        <div class="terminal-title">
+          Environment Update
+        </div>
+
+        <div class="terminal-line" data-line="1">
+          &gt; obstacle detected
+        </div>
+
+        <div class="terminal-line" data-line="2">
+          &gt; current path blocked
+        </div>
+
+        <div class="terminal-line" data-line="3">
+          &gt; analyzing environment...
+        </div>
+
+        <div class="terminal-line" data-line="4">
+          &gt; evaluating alternate routes...
+        </div>
+
+        <div
+          class="terminal-line active"
+          data-line="5"
+        >
+          &gt; replanning
+        </div>
+
+      </div>
+
+      <div id="goal-message">
+        <span>Navigation Complete</span>
+        <h2>Goal reached</h2>
+      </div>
+
+      <div id="project-reveal">
+
+        <div class="project-info">
+
+          <span class="project-number">
+            Featured Project
+          </span>
+
+          <h1>
+            LLM-Augmented<br>
+            <em>Robot Navigation</em>
+          </h1>
+
+          <p class="project-description">
+            This is a project I built this year. It's a navigation system combining traditional
+            A* pathfinding with an LLM reasoning layer
+            that adapts when unexpected obstacles
+            invalidate the robot's original route.
+          </p>
+
+          <div class="tags">
+            <span class="tag">A*</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Robotics</span>
+            <span class="tag">Path Planning</span>
+          </div>
+
+          <a
+            class="project-link interactive-link"
+            href="https://github.com/SreshthTiwari/CS81_FinalProject"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View project on GitHub ↗
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="github-section">
+
+    <div class="github-inner">
+
+      <span class="github-small">
+        There's more
+      </span>
+
+      <h2>
+        For more things<br>
+        I've built:
+      </h2>
+
+      <a
+        class="github-link interactive-link"
+        href="https://github.com/SreshthTiwari"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Explore my GitHub ↗
+      </a>
+
+    </div>
+
+  </section>
+
+  <div id="cursor">
+
+    <div class="cursor-circle">
+      <div class="cursor-dot"></div>
+    </div>
+
+    <span id="cursor-text">
+      Scroll to move
+    </span>
+
+  </div>
+
+  <script>
+    const story = document.getElementById("story");
+
+    const gridWrap =
+      document.getElementById("grid-wrap");
+
+    const robot =
+      document.getElementById("robot");
+
+    const obstacle =
+      document.getElementById("obstacle");
+
+    const originalPath =
+      document.getElementById("original-path");
+
+    const newPath =
+      document.getElementById("new-path");
+
+    const planCopy =
+      document.getElementById("plan-copy");
+
+    const changeCopy =
+      document.getElementById("change-copy");
+
+    const adaptCopy =
+      document.getElementById("adapt-copy");
+
+    const terminal =
+      document.getElementById("terminal");
+
+    const terminalLines =
+      document.querySelectorAll(".terminal-line");
+
+    const goalMessage =
+      document.getElementById("goal-message");
+
+    const projectReveal =
+      document.getElementById("project-reveal");
+
+    const cursor =
+      document.getElementById("cursor");
+
+    const cursorText =
+      document.getElementById("cursor-text");
+
+    const menu =
+      document.getElementById("menu");
+
+    const menuOpen =
+      document.getElementById("menu-open");
+
+    const menuClose =
+      document.getElementById("menu-close");
+
+    let originalLength;
+    let newLength;
+
+    let obstacleHasDropped = false;
+
+    // adapted from ChatGPT
+    // keeps scroll values between 0 and 1 then maps sections of overall progress into smaller ranges
+    // fadewindow uses those ranges to fade story elements in hold them visible then fade them out
+    function clamp(value, min = 0, max = 1) {
+      return Math.min(
+        Math.max(value, min),
+        max
+      );
+    }
+
+    function range(
+      progress,
+      start,
+      end
+    ) {
+      return clamp(
+        (progress - start) /
+        (end - start)
+      );
+    }
+
+    function fadeWindow(
+      progress,
+      start,
+      peakStart,
+      peakEnd,
+      end
+    ) {
+      if (progress < start) return 0;
+
+      if (progress < peakStart) {
+        return range(
+          progress,
+          start,
+          peakStart
+        );
+      }
+
+      if (progress <= peakEnd) {
+        return 1;
+      }
+
+      if (progress < end) {
+        return 1 -
+          range(
+            progress,
+            peakEnd,
+            end
+          );
+      }
+
+      return 0;
+    }
+
+    // adapted from ChatGPT
+    // reads svg path lengths then uses stroke dasharray and dashoffset to hide both routes at start
+    // lowering dashoffset later makes route look like it is being drawn
+    function preparePaths() {
+      originalLength =
+        originalPath.getTotalLength();
+
+      newLength =
+        newPath.getTotalLength();
+
+      originalPath.style.strokeDasharray =
+        originalLength;
+
+      originalPath.style.strokeDashoffset =
+        originalLength;
+
+      newPath.style.strokeDasharray =
+        newLength;
+
+      newPath.style.strokeDashoffset =
+        newLength;
+    }
+
+    // adapted from ChatGPT
+    // converts progress value into exact point on svg route with getpointatlength
+    // this lets robot position follow same geometry used to draw path
+    function pointAlongPath(
+      path,
+      progress
+    ) {
+      const length =
+        path.getTotalLength();
+
+      return path.getPointAtLength(
+        length * clamp(progress)
+      );
+    }
+
+    // adapted from ChatGPT
+    // samples two nearby points on svg route and uses atan2 to find direction between them
+    // resulting angle rotates robot so it faces direction route is moving
+    function angleAlongPath(
+      path,
+      progress
+    ) {
+      const length =
+        path.getTotalLength();
+
+      const position =
+        length * clamp(progress);
+
+      const point1 =
+        path.getPointAtLength(
+          Math.max(
+            0,
+            position - 2
+          )
+        );
+
+      const point2 =
+        path.getPointAtLength(
+          Math.min(
+            length,
+            position + 2
+          )
+        );
+
+      return (
+        Math.atan2(
+          point2.y - point1.y,
+          point2.x - point1.x
+        ) *
+        180 /
+        Math.PI
+      ) + 90;
+    }
+
+    function positionRobot(
+      path,
+      progress
+    ) {
+      const point =
+        pointAlongPath(
+          path,
+          progress
+        );
+
+      const angle =
+        angleAlongPath(
+          path,
+          progress
+        );
+
+      robot.style.left =
+        `${point.x / 12}%`;
+
+      robot.style.top =
+        `${point.y / 8}%`;
+
+      robot.style.transform =
+        `
+          translate(-50%, -50%)
+          rotate(${angle}deg)
+        `;
+    }
+
+    function setCopyOpacity(
+      element,
+      opacity
+    ) {
+      element.style.opacity = opacity;
+
+      if (opacity > 0.05) {
+        element.classList.add("visible");
+      } else {
+        element.classList.remove("visible");
+      }
+    }
+
+    // adapted from ChatGPT
+    // converts current scroll distance into progress from 0 to 1
+    // progress controls path drawing robot movement obstacle drop terminal sequence and final project reveal
+    function updateStory() {
+      const rect =
+        story.getBoundingClientRect();
+
+      const scrollable =
+        story.offsetHeight -
+        window.innerHeight;
+
+      const scrolled =
+        -rect.top;
+
+      const progress =
+        clamp(
+          scrolled /
+          scrollable
+        );
+
+      const planOpacity =
+        fadeWindow(
+          progress,
+          0.02,
+          0.06,
+          0.15,
+          0.22
+        );
+
+      setCopyOpacity(
+        planCopy,
+        planOpacity
+      );
+
+      const pathDraw =
+        range(
+          progress,
+          0.02,
+          0.14
+        );
+
+      originalPath.style.strokeDashoffset =
+        originalLength *
+        (1 - pathDraw);
+
+      const firstMovement =
+        range(
+          progress,
+          0.11,
+          0.29
+        );
+
+      positionRobot(
+        originalPath,
+        firstMovement * 0.52
+      );
+
+      if (
+        progress >= 0.30 &&
+        !obstacleHasDropped
+      ) {
+        obstacle.classList.add(
+          "visible"
+        );
+
+        obstacleHasDropped = true;
+      }
+
+      if (
+        progress < 0.30 &&
+        obstacleHasDropped
+      ) {
+        obstacle.classList.remove(
+          "visible"
+        );
+
+        obstacleHasDropped = false;
+      }
+
+      const changeOpacity =
+        fadeWindow(
+          progress,
+          0.29,
+          0.33,
+          0.39,
+          0.45
+        );
+
+      setCopyOpacity(
+        changeCopy,
+        changeOpacity
+      );
+
+      if (progress >= 0.30) {
+        originalPath.style.opacity =
+          Math.max(
+            0.16,
+            1 -
+            range(
+              progress,
+              0.30,
+              0.38
+            ) *
+            0.84
+          );
+
+        originalPath.style.strokeDasharray =
+          "8 9";
+      } else {
+        originalPath.style.opacity = 1;
+
+        originalPath.style.strokeDasharray =
+          originalLength;
+      }
+
+      const terminalProgress =
+        range(
+          progress,
+          0.40,
+          0.55
+        );
+
+      if (
+        progress >= 0.40 &&
+        progress <= 0.61
+      ) {
+        terminal.classList.add(
+          "visible"
+        );
+      } else {
+        terminal.classList.remove(
+          "visible"
+        );
+      }
+
+      terminalLines.forEach(
+        (line, index) => {
+          const threshold =
+            (index + 1) /
+            terminalLines.length;
+
+          if (
+            terminalProgress >=
+            threshold - 0.12
+          ) {
+            line.classList.add(
+              "visible"
+            );
+          } else {
+            line.classList.remove(
+              "visible"
+            );
+          }
+        }
+      );
+
+      const adaptOpacity =
+        fadeWindow(
+          progress,
+          0.48,
+          0.52,
+          0.60,
+          0.66
+        );
+
+      setCopyOpacity(
+        adaptCopy,
+        adaptOpacity
+      );
+
+      const newPathDraw =
+        range(
+          progress,
+          0.52,
+          0.65
+        );
+
+      newPath.style.strokeDashoffset =
+        newLength *
+        (1 - newPathDraw);
+
+      if (progress >= 0.52) {
+        const secondMovement =
+          range(
+            progress,
+            0.60,
+            0.75
+          );
+
+        positionRobot(
+          newPath,
+          secondMovement
+        );
+      }
+
+      const goalOpacity =
+        fadeWindow(
+          progress,
+          0.74,
+          0.77,
+          0.81,
+          0.86
+        );
+
+      goalMessage.style.opacity =
+        goalOpacity;
+
+      if (goalOpacity > 0.05) {
+        goalMessage.classList.add(
+          "visible"
+        );
+      } else {
+        goalMessage.classList.remove(
+          "visible"
+        );
+      }
+
+      const revealProgress =
+        range(
+          progress,
+          0.84,
+          0.94
+        );
+
+      if (revealProgress > 0) {
+        projectReveal.classList.add(
+          "visible"
+        );
+
+        projectReveal.style.opacity =
+          revealProgress;
+
+        gridWrap.style.width =
+          "43vw";
+
+        gridWrap.style.height =
+          "43vh";
+
+        gridWrap.style.left =
+          "72%";
+
+        gridWrap.style.opacity =
+          0.85;
+
+        goalMessage.style.opacity = 0;
+
+        planCopy.style.opacity = 0;
+        changeCopy.style.opacity = 0;
+        adaptCopy.style.opacity = 0;
+        terminal.style.opacity = 0;
+      } else {
+        projectReveal.classList.remove(
+          "visible"
+        );
+
+        gridWrap.style.width =
+          "";
+
+        gridWrap.style.height =
+          "";
+
+        gridWrap.style.left =
+          "";
+
+        gridWrap.style.opacity =
+          "";
+      }
+
+      if (progress < 0.84) {
+        cursorText.textContent =
+          "Scroll to move";
+      } else {
+        cursorText.textContent =
+          "Explore project";
+      }
+    }
+
+    function moveCursor(event) {
+      cursor.classList.add("visible");
+
+      cursor.style.left =
+        `${event.clientX}px`;
+
+      cursor.style.top =
+        `${event.clientY}px`;
+    }
+
+    document.addEventListener(
+      "mousemove",
+      moveCursor
+    );
+
+    document.addEventListener(
+      "mouseleave",
+      () => {
+        cursor.classList.remove(
+          "visible"
+        );
+      }
+    );
+
+    document
+      .querySelectorAll(
+        ".interactive-link"
+      )
+      .forEach(link => {
+
+        link.addEventListener(
+          "mouseenter",
+          () => {
+            cursorText.textContent =
+              "Let's go ↗";
+          }
+        );
+
+        link.addEventListener(
+          "mouseleave",
+          () => {
+            cursorText.textContent =
+              "Scroll to move";
+          }
+        );
+
+      });
+
+    menuOpen.addEventListener(
+      "click",
+      () => {
+        menu.classList.add("open");
+      }
+    );
+
+    menuClose.addEventListener(
+      "click",
+      () => {
+        menu.classList.remove("open");
+      }
+    );
+
+    window.addEventListener(
+      "scroll",
+      updateStory,
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "resize",
+      () => {
+        preparePaths();
+        updateStory();
+      }
+    );
+
+    preparePaths();
+    updateStory();
+  </script>
+
+</body>
+</html>

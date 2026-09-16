@@ -1,11 +1,709 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>heyheyhey</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sreshth Tiwari — Computer Science and Mathematics at Dartmouth College">
+  <title>Sreshth Tiwari</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      overflow: hidden;
+      background: #111;
+      color: white;
+      font-family: "DM Sans", sans-serif;
+      cursor: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #current-bg {
+      z-index: 0;
+    }
+
+    #next-bg {
+      z-index: 1;
+      clip-path: circle(0px at 50% 50%);
+      will-change: clip-path;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+  background: rgba(0, 0, 0, 0.42);
+    }
+
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 28px 34px;
+    }
+
+    .logo {
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .menu-button {
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: none;
+
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .menu-button span {
+      display: inline-block;
+      margin-left: 6px;
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover span {
+      transform: rotate(90deg);
+    }
+
+    main {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      pointer-events: none;
+    }
+
+    .hero {
+      text-align: center;
+      transform: translateY(-1vh);
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(72px, 11vw, 180px);
+      font-weight: 500;
+      line-height: 0.78;
+      letter-spacing: -0.055em;
+
+      text-shadow: 0 3px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .hero h1 span {
+      display: block;
+    }
+
+    .hero .last-name {
+      font-style: italic;
+      margin-top: .1em;
+      letter-spacing: 5px;
+    }
+
+    .hero-subtitle {
+      margin-top: 42px;
+
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+
+    .image-counter {
+      position: fixed;
+      left: 34px;
+      bottom: 30px;
+      z-index: 10;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-size: 10px;
+      letter-spacing: 0.14em;
+    }
+
+    .counter-line {
+      width: 35px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+
+    #cursor {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1000;
+
+      pointer-events: none;
+
+      display: flex;
+      align-items: center;
+
+      transform: translate(-15px, -15px);
+
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    #cursor.visible {
+      opacity: 1;
+    }
+
+    /* adapted from ChatGPT */
+    /* creates svg progress ring by setting circumference as stroke-dasharray
+       and changing stroke-dashoffset to control visible part of circle */
+    .cursor-ring {
+      position: relative;
+
+      width: 32px;
+      height: 32px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cursor-ring::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 50%;
+    }
+
+    .cursor-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .progress-ring {
+      position: absolute;
+      inset: 0;
+
+      width: 32px;
+      height: 32px;
+
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+      fill: none;
+      stroke: white;
+      stroke-width: 1.5;
+
+      stroke-dasharray: 94.25;
+      stroke-dashoffset: 94.25;
+
+      transition: stroke-dashoffset 50ms linear;
+    }
+
+    .cursor-label {
+      margin-left: 13px;
+
+      white-space: nowrap;
+
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    }
+
+
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+
+      background: #111;
+      color: white;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 8vw;
+
+      transform: translateY(-100%);
+      transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .menu.open {
+      transform: translateY(0);
+    }
+
+    .menu-close {
+      position: absolute;
+      right: 34px;
+      top: 28px;
+
+      border: 0;
+      background: transparent;
+      color: white;
+
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+    }
+
+    .menu nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu nav a {
+      width: fit-content;
+
+      color: white;
+      text-decoration: none;
+
+      font-family: "Playfair Display", serif;
+      font-size: clamp(48px, 7vw, 110px);
+      line-height: 0.95;
+
+      opacity: 0.45;
+
+      transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+    }
+
+    .menu nav a:hover {
+      opacity: 1;
+      transform: translateX(14px);
+    }
+
+
+    .mobile-switch {
+      display: none;
+    }
+/* adapted from ChatGPT */
+/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
+/* detects screens below 700px using media query, hides mouse cursor,
+   resizes layout, and displays touch image switch button */
+    @media (max-width: 700px) {
+
+      body {
+        cursor: auto;
+      }
+
+      #cursor {
+        display: none;
+      }
+
+      header {
+        padding: 22px;
+      }
+
+      .hero h1 {
+        font-size: clamp(62px, 22vw, 110px);
+      }
+
+      .hero .last-name {
+        margin-left: 0;
+      }
+
+      .hero-subtitle {
+        margin-top: 30px;
+        font-size: 9px;
+      }
+
+      .image-counter {
+        left: 22px;
+        bottom: 24px;
+      }
+
+      .mobile-switch {
+        display: block;
+
+        position: fixed;
+        right: 22px;
+        bottom: 20px;
+        z-index: 20;
+
+        padding: 11px 15px;
+
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 30px;
+
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(8px);
+
+        color: white;
+
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    Yo
+
+  <div id="current-bg" class="background"></div>
+  <div id="next-bg" class="background"></div>
+  <div class="overlay"></div>
+
+  <header>
+    <a class="logo" href="./index.html">Sreshth Tiwari</a>
+
+    <button class="menu-button" id="menu-open">
+      Menu <span>+</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>
+        <span>Sreshth</span>
+        <span class="last-name">Tiwari</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Computer Science and Mathematics Major at Dartmouth College
+      </p>
+    </section>
+  </main>
+
+  <div class="image-counter">
+    <span id="current-number">01</span>
+    <div class="counter-line"></div>
+    <span id="total-number">04</span>
+  </div>
+
+  <div id="cursor">
+    <div class="cursor-ring">
+      <!-- adapted from AI -->
+       <!-- uses svg circle as progress ring around cursor dot
+       javascript changes stroke-dashoffset to show hold progress around circle -->
+      <svg class="progress-ring" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="15"></circle>
+      </svg>
+
+      <div class="cursor-dot"></div>
+    </div>
+
+    <span class="cursor-label" id="cursor-label">
+      Hold to switch
+    </span>
+  </div>
+
+  <button class="mobile-switch" id="mobile-switch">
+    Hold to switch
+  </button>
+
+  <div class="menu" id="menu">
+    <button class="menu-close" id="menu-close">
+      Close ×
+    </button>
+
+    <nav>
+      <a href="research.html">Research</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <script>
+    const images = [
+      "images/1.jpg",
+      "images/2.jpg",
+      "images/3.jpg",
+      "images/4.jpg"
+    ];
+
+    let currentIndex = 0;
+    let holding = false;
+    let switching = false;
+    let holdStart = 0;
+    let animationFrame = null;
+
+    const HOLD_DURATION = 700;
+
+    const currentBg = document.getElementById("current-bg");
+    const nextBg = document.getElementById("next-bg");
+
+    const cursor = document.getElementById("cursor");
+    const cursorLabel = document.getElementById("cursor-label");
+    const progressCircle = document.querySelector(".progress-ring circle");
+
+    const currentNumber = document.getElementById("current-number");
+    const totalNumber = document.getElementById("total-number");
+
+    const menu = document.getElementById("menu");
+    const menuOpen = document.getElementById("menu-open");
+    const menuClose = document.getElementById("menu-close");
+
+    const mobileSwitch = document.getElementById("mobile-switch");
+
+    const circumference = 2 * Math.PI * 15;
+
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = circumference;
+
+    totalNumber.textContent = String(images.length).padStart(2, "0");
+
+    images.forEach(src => {
+      const image = new Image();
+      image.src = src;
+    });
+
+    currentBg.style.backgroundImage = `url("${images[currentIndex]}")`;
+
+    function moveCursor(event) {
+      cursor.classList.add("visible");
+
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+    }
+
+    document.addEventListener("mousemove", moveCursor);
+
+    document.addEventListener("mouseleave", () => {
+      cursor.classList.remove("visible");
+    });
+
+    // adapted from ChatGPT
+    // records starting timestamp with performance.now(), repeatedly calculates elapsed hold time
+    // with requestAnimationFrame, and converts elapsed percentage into svg stroke-dashoffset
+    function beginHold(x, y) {
+      if (switching || menu.classList.contains("open")) {
+        return;
+      }
+
+      holding = true;
+      holdStart = performance.now();
+
+      cursorLabel.textContent = "Hold to switch";
+
+      function update(now) {
+        if (!holding) {
+          return;
+        }
+
+        const elapsed = now - holdStart;
+        const progress = Math.min(elapsed / HOLD_DURATION, 1);
+
+        progressCircle.style.strokeDashoffset =
+          circumference * (1 - progress);
+
+        if (progress >= 0.35) {
+          cursorLabel.textContent = "Switching...";
+        }
+
+        if (progress >= 1) {
+          holding = false;
+          progressCircle.style.strokeDashoffset = 0;
+
+          switchImage(x, y);
+          return;
+        }
+
+        animationFrame = requestAnimationFrame(update);
+      }
+
+      animationFrame = requestAnimationFrame(update);
+    }
+
+    function cancelHold() {
+      if (!holding) {
+        return;
+      }
+
+      holding = false;
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      progressCircle.style.strokeDashoffset = circumference;
+      cursorLabel.textContent = "Hold to switch";
+    }
+
+    // adapted from ChatGPT
+    // listens for mouse press outside buttons and links to start hold timer at cursor coordinates
+    // and listens for mouse release to cancel unfinished hold and reset progress ring
+    document.addEventListener("mousedown", event => {
+      const clickedInteractive =
+        event.target.closest("button") ||
+        event.target.closest("a");
+
+      if (clickedInteractive) {
+        return;
+      }
+
+      beginHold(event.clientX, event.clientY);
+    });
+
+    document.addEventListener("mouseup", cancelHold);
+
+    // adapted from ChatGPT
+    // loads next image into second background layer, places clip path of radius zero at cursor coordinates
+    // then expands circle until next image covers viewport before replacing current background
+    async function switchImage(x, y) {
+      if (switching) {
+        return;
+      }
+
+      switching = true;
+
+      const nextIndex = (currentIndex + 1) % images.length;
+
+      nextBg.style.backgroundImage =
+        `url("${images[nextIndex]}")`;
+
+      nextBg.style.transition = "none";
+      nextBg.style.clipPath =
+        `circle(0px at ${x}px ${y}px)`;
+
+      nextBg.offsetHeight;
+
+      const maxRadius = calculateRadius(x, y);
+
+      nextBg.style.transition =
+        "clip-path 1.15s cubic-bezier(0.76, 0, 0.24, 1)";
+
+      nextBg.style.clipPath =
+        `circle(${maxRadius}px at ${x}px ${y}px)`;
+
+      await wait(1200);
+
+      currentIndex = nextIndex;
+
+      currentBg.style.backgroundImage =
+        `url("${images[currentIndex]}")`;
+
+      currentNumber.textContent =
+        String(currentIndex + 1).padStart(2, "0");
+
+      nextBg.style.transition = "none";
+      nextBg.style.clipPath =
+        `circle(0px at ${x}px ${y}px)`;
+
+      progressCircle.style.strokeDashoffset = circumference;
+      cursorLabel.textContent = "Hold to switch";
+
+      switching = false;
+    }
+
+    // adapted from ChatGPT
+    // finds largest horizontal and vertical distances from cursor to viewport edges
+    // then uses pythagorean distance to calculate radius needed to reach farthest corner
+    function calculateRadius(x, y) {
+      const farthestX = Math.max(x, window.innerWidth - x);
+      const farthestY = Math.max(y, window.innerHeight - y);
+
+      return Math.sqrt(
+        farthestX * farthestX +
+        farthestY * farthestY
+      );
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    menuOpen.addEventListener("click", () => {
+      menu.classList.add("open");
+    });
+
+    menuClose.addEventListener("click", () => {
+      menu.classList.remove("open");
+    });
+
+    // adapted from ChatGPT
+    // starts settimeout on touchstart and switches image after hold duration
+    // while touchend or touchcancel clears timer before switch can occur
+    let mobileHoldTimer = null;
+
+    mobileSwitch.addEventListener("touchstart", event => {
+      event.preventDefault();
+
+      mobileSwitch.textContent = "Switching...";
+
+      mobileHoldTimer = setTimeout(() => {
+        const rect = mobileSwitch.getBoundingClientRect();
+
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        switchImage(x, y);
+
+        mobileSwitch.textContent = "Hold to switch";
+      }, HOLD_DURATION);
+    });
+
+    mobileSwitch.addEventListener("touchend", () => {
+      clearTimeout(mobileHoldTimer);
+      mobileSwitch.textContent = "Hold to switch";
+    });
+
+    mobileSwitch.addEventListener("touchcancel", () => {
+      clearTimeout(mobileHoldTimer);
+      mobileSwitch.textContent = "Hold to switch";
+    });
+  </script>
+
 </body>
 </html>

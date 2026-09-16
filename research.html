@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sreshth Tiwari — Bioinformatics Research">
+  <title>Research — Sreshth Tiwari</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #080808;
+      --text: #f4f4f0;
+      --muted: rgba(244, 244, 240, 0.5);
+      --faint: rgba(244, 244, 240, 0.08);
+      --green: #8ccf9c;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      cursor: none;
+    }
+
+    a,
+    button {
+      color: inherit;
+      font: inherit;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 28px 34px;
+    }
+
+    .logo {
+      color: white;
+      text-decoration: none;
+
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .menu-button {
+      z-index: 100000;
+
+      border: 0;
+      background: transparent;
+      color: white;
+      cursor: none;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .menu-button span {
+      display: inline-block;
+      margin-left: 5px;
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover span {
+      transform: rotate(90deg);
+    }
+
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+
+      display: flex;
+      align-items: center;
+
+      padding: 8vw;
+
+      background: #101010;
+
+      transform: translateY(-100%);
+      transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .menu.open {
+      transform: translateY(0);
+    }
+
+    .menu-close {
+      position: absolute;
+      right: 34px;
+      top: 28px;
+
+      border: 0;
+      background: transparent;
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .menu nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu nav a {
+      width: fit-content;
+
+      color: white;
+      text-decoration: none;
+
+      font-family: "Playfair Display", serif;
+      font-size: clamp(60px, 9vw, 140px);
+      line-height: 0.95;
+
+      opacity: 0.4;
+
+      transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+    }
+
+    .menu nav a:hover {
+      opacity: 1;
+      transform: translateX(14px);
+    }
+
+    .story {
+      position: relative;
+      height: 820vh;
+    }
+
+    .stage {
+      position: sticky;
+      top: 0;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(255,255,255,0.025),
+          transparent 55%
+        ),
+        var(--bg);
+    }
+
+    .research-label {
+      position: absolute;
+      top: 90px;
+      left: 34px;
+      z-index: 20;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      line-height: 1.6;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .research-label strong {
+      display: block;
+      color: white;
+      font-weight: 500;
+    }
+
+    #dna-field {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+
+      overflow: hidden;
+
+      opacity: 1;
+      transition: opacity 500ms ease;
+    }
+
+    .dna-fragment {
+      position: absolute;
+
+      color: rgba(255,255,255,0.16);
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+      font-size: 11px;
+      letter-spacing: 0.25em;
+
+      white-space: nowrap;
+
+      user-select: none;
+
+      transition:
+        opacity 400ms ease,
+        transform 600ms ease;
+    }
+
+    .scene-copy {
+      position: absolute;
+      z-index: 20;
+
+      left: 50%;
+      top: 50%;
+
+      width: min(1100px, 86vw);
+
+      text-align: center;
+
+      transform:
+        translate(-50%, calc(-50% + 20px));
+
+      opacity: 0;
+
+      pointer-events: none;
+    }
+
+    .scene-copy h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(48px, 7vw, 110px);
+      font-weight: 500;
+
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+    }
+
+    .scene-copy h2 em {
+      font-weight: 500;
+    }
+
+    .scene-copy p {
+      max-width: 550px;
+
+      margin: 25px auto 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    #conversion {
+      position: absolute;
+      inset: 0;
+      z-index: 15;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      opacity: 0;
+    }
+
+    .conversion-label {
+      margin-bottom: 25px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .sequence {
+      max-width: 90vw;
+
+      overflow: hidden;
+
+      white-space: nowrap;
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+      font-size: clamp(18px, 2.6vw, 42px);
+      letter-spacing: 0.28em;
+
+      text-align: center;
+    }
+
+    #dna-sequence {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .conversion-arrow {
+      margin: 35px 0;
+
+      color: var(--muted);
+
+      font-size: 25px;
+    }
+/* adapted from ChatGPT */
+/* builds bitvector visualization with css grid using 32 equal columns
+   and highlight class changes selected bit styling as query moves through data */
+    #bit-sequence {
+      color: var(--green);
+    }
+
+    #bit-vector {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      width: 86vw;
+
+      transform: translate(-50%, -50%);
+
+      z-index: 15;
+
+      opacity: 0;
+    }
+
+    .bit-vector-label {
+      margin-bottom: 20px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .bits {
+      display: grid;
+      grid-template-columns: repeat(32, 1fr);
+
+      width: 100%;
+
+      border-top:
+        1px solid rgba(255,255,255,0.15);
+
+      border-left:
+        1px solid rgba(255,255,255,0.15);
+    }
+
+    .bit {
+      aspect-ratio: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-right:
+        1px solid rgba(255,255,255,0.08);
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
+
+      color: rgba(255,255,255,0.36);
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+      font-size: clamp(7px, 0.7vw, 11px);
+
+      transition:
+        background 200ms ease,
+        color 200ms ease,
+        transform 200ms ease;
+    }
+
+    .bit.highlight {
+      background: white;
+      color: black;
+      transform: scale(1.08);
+    }
+
+    #rank-demo {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      width: min(1000px, 85vw);
+
+      z-index: 25;
+
+      transform: translate(-50%, -50%);
+
+      opacity: 0;
+    }
+
+    .rank-question {
+      text-align: center;
+    }
+
+    .rank-question span {
+      display: block;
+
+      margin-bottom: 15px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .rank-question h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(50px, 7vw, 105px);
+      font-weight: 500;
+
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .rank-code {
+      margin-top: 30px;
+
+      color: var(--green);
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+      font-size: 14px;
+    }
+/* adapted from ChatGPT */
+/* builds paired bitvector layout using nested css grids
+   outer grid separates superblocks and inner grids divide each superblock into smaller blocks */
+    #structure {
+      position: absolute;
+
+      left: 50%;
+      top: 52%;
+
+      width: min(1120px, 88vw);
+
+      z-index: 30;
+
+      transform: translate(-50%, -50%);
+
+      opacity: 0;
+    }
+
+    .structure-title {
+      margin-bottom: 30px;
+
+      text-align: center;
+    }
+
+    .structure-title span {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .structure-title h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(42px, 5vw, 80px);
+      font-weight: 500;
+
+      letter-spacing: -0.045em;
+    }
+
+    .superblocks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .superblock {
+      position: relative;
+
+      padding: 38px 12px 12px;
+
+      border:
+        1px solid rgba(255,255,255,0.2);
+
+      background:
+        rgba(255,255,255,0.015);
+
+      transition:
+        opacity 300ms ease,
+        border-color 300ms ease,
+        background 300ms ease;
+    }
+
+    .superblock-label {
+      position: absolute;
+
+      left: 12px;
+      top: 12px;
+
+      color: var(--muted);
+
+      font-size: 7px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .blocks {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .block {
+      aspect-ratio: 1.5;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      color: rgba(255,255,255,0.35);
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+      font-size: 7px;
+
+      transition:
+        background 250ms ease,
+        color 250ms ease,
+        border-color 250ms ease,
+        transform 250ms ease;
+    }
+
+    .superblock.active {
+      border-color:
+        rgba(140,207,156,0.65);
+
+      background:
+        rgba(140,207,156,0.04);
+    }
+
+    .superblock.inactive {
+      opacity: 0.25;
+    }
+
+    .block.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: #080808;
+
+      transform: scale(1.04);
+    }
+
+    #query-panel {
+      position: absolute;
+
+      right: 5vw;
+      bottom: 6vh;
+
+      width: 290px;
+
+      z-index: 50;
+
+      padding: 18px;
+
+      border:
+        1px solid rgba(255,255,255,0.12);
+
+      background:
+        rgba(8,8,8,0.82);
+
+      backdrop-filter: blur(14px);
+
+      opacity: 0;
+    }
+
+    .query-title {
+      margin-bottom: 13px;
+      padding-bottom: 10px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.1);
+
+      color: var(--muted);
+
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .query-row {
+      display: flex;
+      justify-content: space-between;
+
+      margin: 9px 0;
+
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+      font-size: 9px;
+    }
+
+    .query-row span:first-child {
+      color: var(--muted);
+    }
+
+    .query-row span:last-child {
+      color: var(--green);
+    }
+
+    #research-reveal {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+
+      display: flex;
+      align-items: center;
+
+      padding: 7vw;
+
+      background: var(--bg);
+
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #research-reveal.visible {
+      pointer-events: auto;
+    }
+
+    .research-info {
+      max-width: 850px;
+    }
+
+    .research-small {
+      display: block;
+
+      margin-bottom: 22px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .research-info h1 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(55px, 7.5vw, 120px);
+      font-weight: 500;
+
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+    }
+
+    .research-info h1 em {
+      font-weight: 500;
+    }
+
+    .research-description {
+      max-width: 600px;
+
+      margin-top: 35px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin-top: 26px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+
+      border:
+        1px solid rgba(255,255,255,0.14);
+
+      border-radius: 100px;
+
+      color: rgba(255,255,255,0.65);
+
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .cv-section {
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 30px;
+
+      text-align: center;
+
+      background: var(--bg);
+    }
+
+    .cv-section span {
+      display: block;
+
+      margin-bottom: 25px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .cv-section h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(55px, 8vw, 125px);
+      font-weight: 500;
+
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .cv-section h2 em {
+      font-weight: 500;
+    }
+
+    .cv-link {
+      display: inline-block;
+
+      margin-top: 45px;
+      padding-bottom: 6px;
+
+      border-bottom: 1px solid white;
+
+      color: white;
+      text-decoration: none;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      transition:
+        transform 250ms ease,
+        opacity 250ms ease;
+    }
+
+    .cv-link:hover {
+      transform: scale(1.06);
+      opacity: 0.65;
+    }
+
+    #cursor {
+      position: fixed;
+
+      left: 0;
+      top: 0;
+
+      z-index: 5000;
+
+      display: flex;
+      align-items: center;
+
+      pointer-events: none;
+
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    #cursor.visible {
+      opacity: 1;
+    }
+
+    .cursor-circle {
+      width: 28px;
+      height: 28px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border:
+        1px solid rgba(255,255,255,0.65);
+
+      border-radius: 50%;
+    }
+
+    .cursor-dot {
+      width: 3px;
+      height: 3px;
+
+      border-radius: 50%;
+      background: white;
+    }
+
+    #cursor-text {
+      margin-left: 11px;
+
+      white-space: nowrap;
+
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+/* adapted from ChatGPT */
+
+/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
+
+/* detects screens below 700px using media query, hides mouse cursor,
+   resizes layout, and displays touch-based image switch button */
+
+    @media (max-width: 760px) {
+      body {
+        cursor: auto;
+      }
+
+      #cursor {
+        display: none;
+      }
+
+      .site-header {
+        padding: 22px;
+      }
+
+      .research-label {
+        left: 22px;
+        top: 75px;
+      }
+
+      .bits {
+        grid-template-columns: repeat(16, 1fr);
+      }
+
+      .superblocks {
+        grid-template-columns: 1fr;
+      }
+
+      .superblock:nth-child(n+3) {
+        display: none;
+      }
+
+      #query-panel {
+        right: 20px;
+        bottom: 25px;
+
+        width: calc(100% - 40px);
+      }
+
+      #research-reveal {
+        padding: 100px 24px 40px;
+      }
+
+      .research-info h1 {
+        font-size: clamp(50px, 16vw, 80px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      Sreshth Tiwari
+    </a>
+
+    <button class="menu-button" id="menu-open">
+      Menu <span>+</span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu">
+
+    <button class="menu-close" id="menu-close">
+      Close ×
+    </button>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+  </div>
+
+  <section class="story" id="story">
+
+    <div class="stage">
+
+      <div class="research-label">
+        <strong>Bioinformatics Research</strong>
+      </div>
+
+      <div id="dna-field"></div>
+
+      <div class="scene-copy" id="data-copy">
+        <h2>
+            Classifying DNA fragments is hard
+        </h2>
+
+        <p>
+          Large amounts of data means searching through
+          enormous collections of genomic information
+        </p>
+      </div>
+
+      <div class="scene-copy" id="problem-copy">
+        <h2>
+          A solution is using Bitvectors
+        </h2>
+
+        <p>
+          Bitvectors store this data in a compact, easy to search way.
+        </p>
+      </div>
+
+      <div id="conversion">
+
+        <span class="conversion-label">
+          Genomic information
+        </span>
+
+        <div class="sequence" id="dna-sequence">
+          A C G T G A C C T A G C T G A A C T G C
+        </div>
+
+        <div class="conversion-arrow">
+          ↓
+        </div>
+
+        <div class="sequence" id="bit-sequence">
+          0 1 1 0 1 0 0 1 1 0 1 1 0 0 1 0 1 1 0 1
+        </div>
+
+      </div>
+
+      <div id="bit-vector">
+
+        <div class="bit-vector-label">
+          Compact representation · bit vector
+        </div>
+
+        <div class="bits" id="bits"></div>
+
+      </div>
+
+      <div id="rank-demo">
+
+        <div class="rank-question">
+
+          <span>The next problem</span>
+
+          <h2>
+            How do we find<br>
+            anything in here?
+          </h2>
+
+          <div class="rank-code">
+            rank(1, i) → number of 1s before position i
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="scene-copy" id="count-copy">
+
+        <h2>
+          Don't count<br>
+          everything
+        </h2>
+
+        <p>
+          Store checkpoints so a query can jump close to
+          its destination instead of scanning from the beginning.
+        </p>
+
+      </div>
+
+      <div id="structure">
+
+        <div class="structure-title">
+
+          <span>Paired bit-vector layout</span>
+
+          <h2>
+            Jump, Jump, Count
+          </h2>
+
+        </div>
+
+        <!-- adapted from ChatGPT -->
+        <!-- represents paired bitvector as 64k superblocks containing smaller 512-bit blocks
+             target block gets unique id so javascript can highlight query destination -->
+
+        <div class="superblocks">
+
+          <div class="superblock" id="superblock-1">
+
+            <span class="superblock-label">
+              64K Superblock · 01
+            </span>
+
+            <div class="blocks">
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+            </div>
+
+          </div>
+
+          <div class="superblock" id="superblock-2">
+
+            <span class="superblock-label">
+              64K Superblock · 02
+            </span>
+
+            <div class="blocks">
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block" id="target-block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+            </div>
+
+          </div>
+
+          <div class="superblock" id="superblock-3">
+
+            <span class="superblock-label">
+              64K Superblock · 03
+            </span>
+
+            <div class="blocks">
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+              <div class="block">512</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div id="query-panel">
+
+        <div class="query-title">
+          Rank Query
+        </div>
+
+        <div class="query-row">
+          <span>position</span>
+          <span>83,412</span>
+        </div>
+
+        <div class="query-row">
+          <span>superblock</span>
+          <span>02</span>
+        </div>
+
+        <div class="query-row">
+          <span>block</span>
+          <span>06</span>
+        </div>
+
+        <div class="query-row">
+          <span>local scan</span>
+          <span>140 bits</span>
+        </div>
+
+        <div class="query-row">
+          <span>rank</span>
+          <span>41,728</span>
+        </div>
+
+      </div>
+
+      <div id="research-reveal">
+
+        <div class="research-info">
+
+          <span class="research-small">
+            Song Li Lab · Dartmouth College
+          </span>
+
+          <h1>
+            High-performance<br>
+            genomic classification
+          </h1>
+
+          <p class="research-description">
+            In this research I worked on large-scale metagenomic classification
+            in C++. I developed a paired bit-vector data structure
+            designed to reduce storage overhead while preserving
+            fast rank queries.
+          </p>
+
+          <div class="tags">
+            <span class="tag">C++</span>
+            <span class="tag">Bioinformatics</span>
+            <span class="tag">Data Structures</span>
+            <span class="tag">Metagenomics</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="cv-section">
+
+    <div>
+
+      <span>
+        There's more
+      </span>
+
+      <h2>
+        For more of<br>
+        my research:
+      </h2>
+
+      <a
+        class="cv-link interactive-link"
+        href="SreshthTiwariCV.pdf"
+        target="_blank"
+      >
+        View my resume ↗
+      </a>
+
+    </div>
+
+  </section>
+
+  <div id="cursor">
+
+    <div class="cursor-circle">
+      <div class="cursor-dot"></div>
+    </div>
+
+    <span id="cursor-text">
+      Scroll to explore
+    </span>
+
+  </div>
+
+  <script>
+    const story =
+      document.getElementById("story");
+
+    const dnaField =
+      document.getElementById("dna-field");
+
+    const dataCopy =
+      document.getElementById("data-copy");
+
+    const problemCopy =
+      document.getElementById("problem-copy");
+
+    const conversion =
+      document.getElementById("conversion");
+
+    const bitVector =
+      document.getElementById("bit-vector");
+
+    const bitsContainer =
+      document.getElementById("bits");
+
+    const rankDemo =
+      document.getElementById("rank-demo");
+
+    const countCopy =
+      document.getElementById("count-copy");
+
+    const structure =
+      document.getElementById("structure");
+
+    const queryPanel =
+      document.getElementById("query-panel");
+
+    const researchReveal =
+      document.getElementById("research-reveal");
+
+    const superblocks =
+      document.querySelectorAll(".superblock");
+
+    const targetBlock =
+      document.getElementById("target-block");
+
+    const cursor =
+      document.getElementById("cursor");
+
+    const cursorText =
+      document.getElementById("cursor-text");
+
+    const menu =
+      document.getElementById("menu");
+
+    const menuOpen =
+      document.getElementById("menu-open");
+
+    const menuClose =
+      document.getElementById("menu-close");
+
+    function clamp(value, min = 0, max = 1) {
+      return Math.min(
+        Math.max(value, min),
+        max
+      );
+    }
+
+    function range(progress, start, end) {
+      return clamp(
+        (progress - start) /
+        (end - start)
+      );
+    }
+
+    function fadeWindow(
+      progress,
+      start,
+      fadeInEnd,
+      fadeOutStart,
+      end
+    ) {
+      if (progress < start) {
+        return 0;
+      }
+
+      if (progress < fadeInEnd) {
+        return range(
+          progress,
+          start,
+          fadeInEnd
+        );
+      }
+
+      if (progress <= fadeOutStart) {
+        return 1;
+      }
+
+      if (progress < end) {
+        return 1 -
+          range(
+            progress,
+            fadeOutStart,
+            end
+          );
+      }
+
+      return 0;
+    }
+
+    // adapted from ChatGPT
+    // generates 85 dna fragments by randomly choosing bases from a c g t
+    // assigns random length position opacity and rotation then appends each fragment to dna field
+    function createDNAField() {
+      const letters = ["A", "C", "G", "T"];
+
+      for (let i = 0; i < 85; i++) {
+
+        const fragment =
+          document.createElement("div");
+
+        fragment.className =
+          "dna-fragment";
+
+        let sequence = "";
+
+        const length =
+          5 +
+          Math.floor(
+            Math.random() * 15
+          );
+
+        for (
+          let j = 0;
+          j < length;
+          j++
+        ) {
+          sequence +=
+            letters[
+              Math.floor(
+                Math.random() *
+                letters.length
+              )
+            ];
+        }
+
+        fragment.textContent =
+          sequence;
+
+        fragment.style.left =
+          `${Math.random() * 100}%`;
+
+        fragment.style.top =
+          `${Math.random() * 100}%`;
+
+        fragment.style.opacity =
+          0.08 +
+          Math.random() * 0.22;
+
+        fragment.style.transform =
+          `rotate(${
+            -12 +
+            Math.random() * 24
+          }deg)`;
+
+        dnaField.appendChild(
+          fragment
+        );
+      }
+    }
+
+    // adapted from ChatGPT
+    // generates 256 bit elements with random 0 or 1 values
+    // appends each generated bit into grid used for bitvector visualization
+    function createBits() {
+      for (let i = 0; i < 256; i++) {
+
+        const bit =
+          document.createElement("div");
+
+        bit.className = "bit";
+
+        bit.textContent =
+          Math.random() > 0.5
+            ? "1"
+            : "0";
+
+        bitsContainer.appendChild(bit);
+      }
+    }
+
+    function setOpacity(
+      element,
+      opacity
+    ) {
+      element.style.opacity =
+        clamp(opacity);
+    }
+
+    // adapted from ChatGPT
+    // converts page scroll position into progress value from 0 to 1
+    // uses progress ranges to fade scenes highlight current bit and step through rank query
+    function updateStory() {
+
+      const rect =
+        story.getBoundingClientRect();
+
+      const scrollable =
+        story.offsetHeight -
+        window.innerHeight;
+
+      const progress =
+        clamp(
+          -rect.top /
+          scrollable
+        );
+
+      const dataOpacity =
+        fadeWindow(
+          progress,
+          0.01,
+          0.05,
+          0.11,
+          0.16
+        );
+
+      setOpacity(
+        dataCopy,
+        dataOpacity
+      );
+
+      dnaField.style.opacity =
+        1 -
+        range(
+          progress,
+          0.13,
+          0.25
+        );
+
+      const problemOpacity =
+        fadeWindow(
+          progress,
+          0.14,
+          0.18,
+          0.23,
+          0.28
+        );
+
+      setOpacity(
+        problemCopy,
+        problemOpacity
+      );
+
+      const conversionOpacity =
+        fadeWindow(
+          progress,
+          0.27,
+          0.31,
+          0.37,
+          0.42
+        );
+
+      setOpacity(
+        conversion,
+        conversionOpacity
+      );
+
+      const bitOpacity =
+        fadeWindow(
+          progress,
+          0.40,
+          0.44,
+          0.52,
+          0.58
+        );
+
+      setOpacity(
+        bitVector,
+        bitOpacity
+      );
+
+      const bitElements =
+        document.querySelectorAll(".bit");
+
+      const highlightProgress =
+        range(
+          progress,
+          0.44,
+          0.53
+        );
+
+      const highlightIndex =
+        Math.floor(
+          highlightProgress *
+          (bitElements.length - 1)
+        );
+
+      bitElements.forEach(
+        (bit, index) => {
+
+          if (
+            index ===
+            highlightIndex
+          ) {
+            bit.classList.add(
+              "highlight"
+            );
+          } else {
+            bit.classList.remove(
+              "highlight"
+            );
+          }
+
+        }
+      );
+
+      const rankOpacity =
+        fadeWindow(
+          progress,
+          0.53,
+          0.57,
+          0.62,
+          0.67
+        );
+
+      setOpacity(
+        rankDemo,
+        rankOpacity
+      );
+
+      const countOpacity =
+        fadeWindow(
+          progress,
+          0.64,
+          0.68,
+          0.72,
+          0.76
+        );
+
+      setOpacity(
+        countCopy,
+        countOpacity
+      );
+
+      const structureOpacity =
+        fadeWindow(
+          progress,
+          0.73,
+          0.77,
+          0.88,
+          0.92
+        );
+
+      setOpacity(
+        structure,
+        structureOpacity
+      );
+
+      const queryProgress =
+        range(
+          progress,
+          0.78,
+          0.87
+        );
+
+      if (
+        queryProgress > 0.18
+      ) {
+
+        superblocks.forEach(
+          block => {
+            block.classList.add(
+              "inactive"
+            );
+          }
+        );
+
+        superblocks[1]
+          .classList.remove(
+            "inactive"
+          );
+
+        superblocks[1]
+          .classList.add(
+            "active"
+          );
+
+      } else {
+
+        superblocks.forEach(
+          block => {
+            block.classList.remove(
+              "inactive",
+              "active"
+            );
+          }
+        );
+
+      }
+
+      if (
+        queryProgress > 0.55
+      ) {
+        targetBlock.classList.add(
+          "active"
+        );
+      } else {
+        targetBlock.classList.remove(
+          "active"
+        );
+      }
+
+      if (
+        queryProgress > 0.72
+      ) {
+        queryPanel.style.opacity =
+          range(
+            queryProgress,
+            0.72,
+            1
+          );
+      } else {
+        queryPanel.style.opacity = 0;
+      }
+
+      const reveal =
+        range(
+          progress,
+          0.91,
+          0.98
+        );
+
+      researchReveal.style.opacity =
+        reveal;
+
+      if (reveal > 0.05) {
+        researchReveal.classList.add(
+          "visible"
+        );
+      } else {
+        researchReveal.classList.remove(
+          "visible"
+        );
+      }
+
+      if (progress < 0.73) {
+        cursorText.textContent =
+          "Scroll to explore";
+      } else if (progress < 0.91) {
+        cursorText.textContent =
+          "Follow the query";
+      } else {
+        cursorText.textContent =
+          "Research";
+      }
+    }
+
+    function moveCursor(event) {
+      cursor.classList.add(
+        "visible"
+      );
+
+      cursor.style.left =
+        `${event.clientX}px`;
+
+      cursor.style.top =
+        `${event.clientY}px`;
+    }
+
+    document.addEventListener(
+      "mousemove",
+      moveCursor
+    );
+
+    document.addEventListener(
+      "mouseleave",
+      () => {
+        cursor.classList.remove(
+          "visible"
+        );
+      }
+    );
+
+    document
+      .querySelectorAll(
+        ".interactive-link"
+      )
+      .forEach(link => {
+
+        link.addEventListener(
+          "mouseenter",
+          () => {
+            cursorText.textContent =
+              "Open ↗";
+          }
+        );
+
+        link.addEventListener(
+          "mouseleave",
+          () => {
+            cursorText.textContent =
+              "Scroll to explore";
+          }
+        );
+
+      });
+
+    menuOpen.addEventListener(
+      "click",
+      () => {
+        menu.classList.add(
+          "open"
+        );
+      }
+    );
+
+    menuClose.addEventListener(
+      "click",
+      () => {
+        menu.classList.remove(
+          "open"
+        );
+      }
+    );
+
+    window.addEventListener(
+      "scroll",
+      updateStory,
+      { passive: true }
+    );
+
+    createDNAField();
+    createBits();
+    updateStory();
+  </script>
+
+</body>
+</html>
