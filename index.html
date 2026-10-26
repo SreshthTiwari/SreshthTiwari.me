@@ -443,8 +443,6 @@
 
 <body>
 
-  <!-- adapted from ChatGPT -->
-  <!-- shows simple loading percentage and progress line while javascript preloads background images -->
   <div id="loader">
     <div class="loader-content">
       <div id="loader-number">0%</div>
@@ -487,9 +485,6 @@
 
   <div id="cursor">
     <div class="cursor-ring">
-      <!-- adapted from ChatGPT -->
-       <!-- uses svg circle as progress ring around cursor dot
-       javascript changes stroke-dashoffset to show hold progress around circle -->
       <svg class="progress-ring" viewBox="0 0 32 32">
         <circle cx="16" cy="16" r="15"></circle>
       </svg>
@@ -603,9 +598,6 @@
       cursor.classList.remove("visible");
     });
 
-    // adapted from ChatGPT
-    // records starting timestamp with performance.now(), repeatedly calculates elapsed hold time
-    // with requestAnimationFrame, and converts elapsed percentage into svg stroke-dashoffset
     function beginHold(x, y) {
       if (switching || menu.classList.contains("open")) {
         return;
@@ -660,9 +652,6 @@
       cursorLabel.textContent = "Hold to switch";
     }
 
-    // adapted from ChatGPT
-    // listens for mouse press outside buttons and links to start hold timer at cursor coordinates
-    // and listens for mouse release to cancel unfinished hold and reset progress ring
     document.addEventListener("mousedown", event => {
       const clickedInteractive =
         event.target.closest("button") ||
@@ -677,9 +666,6 @@
 
     document.addEventListener("mouseup", cancelHold);
 
-    // adapted from ChatGPT
-    // loads next image into second background layer, places clip path of radius zero at cursor coordinates
-    // then expands circle until next image covers viewport before replacing current background
     async function switchImage(x, y) {
       if (switching) {
         return;
@@ -725,10 +711,6 @@
 
       switching = false;
     }
-
-    // adapted from ChatGPT
-    // finds largest horizontal and vertical distances from cursor to viewport edges
-    // then uses pythagorean distance to calculate radius needed to reach farthest corner
     function calculateRadius(x, y) {
       const farthestX = Math.max(x, window.innerWidth - x);
       const farthestY = Math.max(y, window.innerHeight - y);
@@ -751,9 +733,7 @@
       menu.classList.remove("open");
     });
 
-    // adapted from ChatGPT
-    // starts settimeout on touchstart and switches image after hold duration
-    // while touchend or touchcancel clears timer before switch can occur
+    
     let mobileHoldTimer = null;
 
     mobileSwitch.addEventListener("touchstart", event => {
