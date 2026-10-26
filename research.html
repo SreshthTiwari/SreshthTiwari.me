@@ -57,6 +57,8 @@
     }
 
     .logo {
+      padding: 14px 18px;
+      margin: -14px -18px;
       color: white;
       text-decoration: none;
 
@@ -67,6 +69,8 @@
     }
 
     .menu-button {
+      padding: 14px 18px;
+      margin: -14px -18px;
       z-index: 100000;
 
       border: 0;
@@ -836,6 +840,51 @@
       background: white;
     }
 
+    #cursor .cursor-circle {
+      transition:
+        transform 250ms ease,
+        background 250ms ease;
+    }
+
+    #cursor .cursor-dot {
+      transition:
+        transform 250ms ease,
+        opacity 250ms ease;
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-circle {
+      transform: scale(1.75);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-dot {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .menu-button {
+      transform-origin: right center;
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover {
+      transform: scale(1.15);
+    }
+
+    body:has(.menu-button:hover) #cursor-text {
+      position: relative;
+      color: transparent;
+      text-shadow: none;
+    }
+
+    body:has(.menu-button:hover) #cursor-text::after {
+      content: "Open menu";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: white;
+    }
+
     #cursor-text {
       margin-left: 11px;
 
@@ -846,7 +895,84 @@
       text-transform: uppercase;
     }
 
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      z-index: 45;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      transform: translateX(-50%);
+      pointer-events: none;
+
+      color: rgba(255, 255, 255, 0.7);
+
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+
+      transition: opacity 400ms ease;
+    }
+
+    .scroll-cue-line {
+      position: relative;
+      width: 1px;
+      height: 38px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .scroll-cue-line::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 50%;
+      background: white;
+      animation: scroll-cue-drop 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes scroll-cue-drop {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(200%); }
+    }
+
+    .scroll-rail {
+      position: absolute;
+      right: 34px;
+      top: 50%;
+      z-index: 45;
+
+      width: 1px;
+      height: 140px;
+      margin-top: -70px;
+
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .scroll-rail-fill {
+      position: absolute;
+      inset: 0;
+      background: white;
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+
     @media (max-width: 760px) {
+      .scroll-cue {
+        display: none;
+      }
+
+      .scroll-rail {
+        right: 10px;
+      }
+
       body {
         cursor: auto;
       }
@@ -923,6 +1049,15 @@
   <section class="story" id="story">
 
     <div class="stage">
+
+      <div class="scroll-cue" id="scroll-cue">
+        <span>Scroll</span>
+        <div class="scroll-cue-line"></div>
+      </div>
+
+      <div class="scroll-rail">
+        <div class="scroll-rail-fill" id="scroll-rail-fill"></div>
+      </div>
 
       <div class="research-label">
         <strong>Bioinformatics Research</strong>
@@ -1195,6 +1330,9 @@
   </div>
 
   <script>
+    const scrollCue = document.getElementById("scroll-cue");
+    const scrollRailFill = document.getElementById("scroll-rail-fill");
+
     const story =
       document.getElementById("story");
 
@@ -1398,6 +1536,12 @@
           -rect.top /
           scrollable
         );
+
+      scrollCue.style.opacity =
+        1 - range(progress, 0.005, 0.03);
+
+      scrollRailFill.style.transform =
+        `scaleY(${progress})`;
 
       const dataOpacity =
         fadeWindow(

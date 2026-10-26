@@ -83,6 +83,9 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
+      transform: translateZ(0);
+      will-change: transform;
+      backface-visibility: hidden;
     }
 
     #current-bg {
@@ -118,6 +121,8 @@
     }
 
     .logo {
+      padding: 14px 18px;
+      margin: -14px -18px;
       color: white;
       text-decoration: none;
       font-size: 12px;
@@ -127,6 +132,8 @@
     }
 
     .menu-button {
+      padding: 14px 18px;
+      margin: -14px -18px;
       color: white;
       background: transparent;
       border: none;
@@ -166,7 +173,7 @@
 
     .hero h1 {
       font-family: "Playfair Display", serif;
-      font-size: clamp(72px, 11vw, 180px);
+      font-size: clamp(66px, 10vw, 162px);
       font-weight: 500;
       line-height: 0.78;
       letter-spacing: -0.055em;
@@ -187,7 +194,7 @@
     .hero-subtitle {
       margin-top: 42px;
 
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -265,6 +272,51 @@
 
       position: relative;
       z-index: 2;
+    }
+
+    #cursor .cursor-ring {
+      transition:
+        transform 250ms ease,
+        background 250ms ease;
+    }
+
+    #cursor .cursor-dot {
+      transition:
+        transform 250ms ease,
+        opacity 250ms ease;
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-ring {
+      transform: scale(1.75);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-dot {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .menu-button {
+      transform-origin: right center;
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover {
+      transform: scale(1.15);
+    }
+
+    body:has(.menu-button:hover) #cursor-label {
+      position: relative;
+      color: transparent;
+      text-shadow: none;
+    }
+
+    body:has(.menu-button:hover) #cursor-label::after {
+      content: "Open menu";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: white;
     }
 
     .progress-ring {
@@ -384,7 +436,7 @@
       }
 
       .hero h1 {
-        font-size: clamp(62px, 22vw, 110px);
+        font-size: clamp(56px, 20vw, 100px);
       }
 
       .hero .last-name {
@@ -393,7 +445,7 @@
 
       .hero-subtitle {
         margin-top: 30px;
-        font-size: 9px;
+        font-size: 10.5px;
       }
 
       .image-counter {
@@ -501,10 +553,10 @@
 
   <script>
     const images = [
-      "images/1.jpg",
-      "images/2.jpg",
-      "images/3.jpg",
-      "images/4.jpg"
+      "images/1.webp",
+      "images/2.webp",
+      "images/3.webp",
+      "images/4.webp"
     ];
 
     let currentIndex = 0;
@@ -543,10 +595,13 @@
     const loaderProgress = document.getElementById("loader-progress");
     let loadedImages = 0;
 
+    const preloaded = [];
+
     images.forEach(src => {
       const image = new Image();
+      preloaded.push(image);
 
-      image.onload = image.onerror = () => {
+      const finish = () => {
         loadedImages++;
 
         const percent = Math.round(
@@ -563,17 +618,51 @@
         }
       };
 
+      image.onload = () => {
+        image.decode().catch(() => {}).then(finish);
+      };
+      image.onerror = finish;
+
       image.src = src;
     });
 
     currentBg.style.backgroundImage = `url("${images[currentIndex]}")`;
 
+    const LABEL_LAG = 0.14;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let labelX = 0;
+    let labelY = 0;
+    let cursorSeen = false;
+
     function moveCursor(event) {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+
+      if (!cursorSeen) {
+        cursorSeen = true;
+        labelX = mouseX;
+        labelY = mouseY;
+      }
+
       cursor.classList.add("visible");
 
-      cursor.style.left = `${event.clientX}px`;
-      cursor.style.top = `${event.clientY}px`;
+      cursor.style.left = `${mouseX}px`;
+      cursor.style.top = `${mouseY}px`;
     }
+
+    function followLabel() {
+      labelX += (mouseX - labelX) * LABEL_LAG;
+      labelY += (mouseY - labelY) * LABEL_LAG;
+
+      cursorLabel.style.transform =
+        `translate(${labelX - mouseX}px, ${labelY - mouseY}px)`;
+
+      requestAnimationFrame(followLabel);
+    }
+
+    requestAnimationFrame(followLabel);
 
     document.addEventListener("mousemove", moveCursor);
 
@@ -657,6 +746,8 @@
       switching = true;
 
       const nextIndex = (currentIndex + 1) % images.length;
+
+      await preloaded[nextIndex].decode().catch(() => {});
 
       nextBg.style.backgroundImage =
         `url("${images[nextIndex]}")`;

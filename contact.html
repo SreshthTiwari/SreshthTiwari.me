@@ -59,6 +59,8 @@
     }
 
     .logo {
+      padding: 14px 18px;
+      margin: -14px -18px;
       color: white;
       text-decoration: none;
 
@@ -69,6 +71,8 @@
     }
 
     .menu-button {
+      padding: 14px 18px;
+      margin: -14px -18px;
       border: 0;
       background: transparent;
       color: white;
@@ -605,6 +609,51 @@
       background: white;
     }
 
+    #cursor .cursor-circle {
+      transition:
+        transform 250ms ease,
+        background 250ms ease;
+    }
+
+    #cursor .cursor-dot {
+      transition:
+        transform 250ms ease,
+        opacity 250ms ease;
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-circle {
+      transform: scale(1.75);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    body:has(.menu-button:hover) #cursor .cursor-dot {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    .menu-button {
+      transform-origin: right center;
+      transition: transform 250ms ease;
+    }
+
+    .menu-button:hover {
+      transform: scale(1.15);
+    }
+
+    body:has(.menu-button:hover) #cursor-text {
+      position: relative;
+      color: transparent;
+      text-shadow: none;
+    }
+
+    body:has(.menu-button:hover) #cursor-text::after {
+      content: "Open menu";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: white;
+    }
+
     #cursor-text {
       margin-left: 11px;
 
@@ -726,16 +775,12 @@
         Home
       </a>
 
-      <a href="projects.html">
-        Projects
-      </a>
-
       <a href="research.html">
         Research
       </a>
 
-      <a href="contact.html">
-        Contact
+      <a href="projects.html">
+        Projects
       </a>
     </nav>
 
