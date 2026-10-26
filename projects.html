@@ -215,9 +215,6 @@
       font-weight: 500;
     }
 
-/* adapted from ChatGPT */
-/* builds navigation map with css grid lines using two linear gradients
-   grid-wrap controls map size and later shrinks and moves it during project reveal */
     .grid-wrap {
       position: absolute;
 
@@ -354,9 +351,6 @@
         0 0 20px rgba(140, 207, 156, 0.8);
     }
 
-/* adapted from ChatGPT */
-/* builds robot from positioned css shapes
-   robot position and rotation are later updated from points and angles along svg path */
     #robot {
       position: absolute;
       left: 8.33%;
@@ -578,9 +572,6 @@
       margin-left: auto;
     }
 
-/* adapted from ChatGPT */
-/* creates terminal panel for replanning sequence
-   visible classes fade panel and individual terminal lines in as scroll progress increases */
     #terminal {
       position: absolute;
 
@@ -658,9 +649,6 @@
       color: var(--green);
     }
 
-/* adapted from ChatGPT */
-/* keeps goal message hidden with opacity and scale
-   visible class fades message in and scales it up when robot reaches end of route */
     #goal-message {
       position: absolute;
 
@@ -955,12 +943,8 @@
       text-transform: uppercase;
     }
 
-/* adapted from ChatGPT */
 
-/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
 
-/* detects screens below 700px using media query, hides mouse cursor,
-   resizes layout, and displays touch-based image switch button */
 
     @media (max-width: 760px) {
       body {
@@ -1061,9 +1045,6 @@
       <div class="project-label">
         <strong>LLM-Augmented Robot Navigation</strong>
       </div>
-      <!-- adapted from ChatGPT -->
-      <!-- defines original and replanned routes as svg paths on top of navigation grid
-           javascript uses path geometry to draw routes and move robot along same coordinates -->
       <div class="grid-wrap" id="grid-wrap">
 
         <div class="grid"></div>
@@ -1336,9 +1317,6 @@
 
     let obstacleHasDropped = false;
 
-    // adapted from ChatGPT
-    // keeps scroll values between 0 and 1 then maps sections of overall progress into smaller ranges
-    // fadewindow uses those ranges to fade story elements in hold them visible then fade them out
     function clamp(value, min = 0, max = 1) {
       return Math.min(
         Math.max(value, min),
@@ -1390,9 +1368,6 @@
       return 0;
     }
 
-    // adapted from ChatGPT
-    // reads svg path lengths then uses stroke dasharray and dashoffset to hide both routes at start
-    // lowering dashoffset later makes route look like it is being drawn
     function preparePaths() {
       originalLength =
         originalPath.getTotalLength();
@@ -1413,9 +1388,6 @@
         newLength;
     }
 
-    // adapted from ChatGPT
-    // converts progress value into exact point on svg route with getpointatlength
-    // this lets robot position follow same geometry used to draw path
     function pointAlongPath(
       path,
       progress
@@ -1428,9 +1400,6 @@
       );
     }
 
-    // adapted from ChatGPT
-    // samples two nearby points on svg route and uses atan2 to find direction between them
-    // resulting angle rotates robot so it faces direction route is moving
     function angleAlongPath(
       path,
       progress
@@ -1509,9 +1478,6 @@
       }
     }
 
-    // adapted from ChatGPT
-    // converts current scroll distance into progress from 0 to 1
-    // progress controls path drawing robot movement obstacle drop terminal sequence and final project reveal
     function updateStory() {
       const rect =
         story.getBoundingClientRect();

@@ -172,10 +172,6 @@
       overflow: hidden;
     }
 
-
-    /* adapted from ChatGPT */
-    /* builds radar effect from one main circle and two pseudo element circles
-       signal ring uses keyframe scaling and opacity to make pulses expand from cursor */
     .radar {
       position: fixed;
 
@@ -628,12 +624,6 @@
       background:
         rgba(255,255,255,0.08);
     }
-/* adapted from ChatGPT */
-
-/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
-
-/* detects screens below 700px using media query, hides mouse cursor,
-   resizes layout, and displays touch-based image switch button */
 
     @media (max-width: 760px) {
 
@@ -783,9 +773,6 @@
 
     </section>
 
-    <!-- adapted from ChatGPT -->
-    <!-- builds contact rows with data attributes that store hover word and cursor label
-         javascript reads those values to change background text and cursor feedback -->
     <section class="contacts">
 
       <a
@@ -1012,9 +999,6 @@
       }
     );
 
-    // adapted from ChatGPT
-    // moves radar toward current mouse position by adding 8 percent of remaining distance each frame
-    // requestanimationframe repeats this so radar follows cursor with smooth delay instead of jumping
     function animateRadar() {
 
       radarX +=
@@ -1038,9 +1022,6 @@
 
     animateRadar();
 
-    // adapted from ChatGPT
-    // adds hover behavior to every contact row and reads data attributes for background word and cursor text
-    // mouse position inside each row is converted into small x and y translation to create magnetic movement
     magneticRows.forEach(
       row => {
 
@@ -1147,9 +1128,6 @@
       }
     );
 
-    // adapted from ChatGPT
-    // copies email with clipboard api and falls back to temporary textarea if clipboard write fails
-    // copied class and timeout show feedback briefly before returning row to normal state
     copyEmail.addEventListener(
       "click",
       async () => {

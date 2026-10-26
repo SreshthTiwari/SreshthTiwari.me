@@ -35,8 +35,6 @@
       font: inherit;
     }
 
-    /* adapted from ChatGPT */
-    /* covers page while background images load then fades away once every image is ready */
     #loader {
       position: fixed;
       inset: 0;
@@ -104,7 +102,6 @@
       pointer-events: none;
   background: rgba(0, 0, 0, 0.42);
     }
-
 
     header {
       position: fixed;
@@ -196,7 +193,6 @@
       text-transform: uppercase;
     }
 
-
     .image-counter {
       position: fixed;
       left: 34px;
@@ -216,7 +212,6 @@
       height: 1px;
       background: rgba(255, 255, 255, 0.6);
     }
-
 
     #cursor {
       position: fixed;
@@ -239,9 +234,6 @@
       opacity: 1;
     }
 
-    /* adapted from ChatGPT */
-    /* creates svg progress ring by setting circumference as stroke-dasharray
-       and changing stroke-dashoffset to control visible part of circle */
     .cursor-ring {
       position: relative;
 
@@ -309,7 +301,6 @@
       text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
     }
 
-
     .menu {
       position: fixed;
       inset: 0;
@@ -375,14 +366,9 @@
       transform: translateX(14px);
     }
 
-
     .mobile-switch {
       display: none;
     }
-/* adapted from ChatGPT */
-/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
-/* detects screens below 700px using media query, hides mouse cursor,
-   resizes layout, and displays touch image switch button */
     @media (max-width: 700px) {
 
       body {
@@ -552,9 +538,6 @@
 
     totalNumber.textContent = String(images.length).padStart(2, "0");
 
-    /* adapted from ChatGPT */
-    /* creates image objects before showing page and counts each finished load
-       percentage and progress bar update until all background images are ready */
     const loader = document.getElementById("loader");
     const loaderNumber = document.getElementById("loader-number");
     const loaderProgress = document.getElementById("loader-progress");
@@ -733,7 +716,6 @@
       menu.classList.remove("open");
     });
 
-    
     let mobileHoldTimer = null;
 
     mobileSwitch.addEventListener("touchstart", event => {

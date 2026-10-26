@@ -326,9 +326,6 @@
 
       font-size: 25px;
     }
-/* adapted from ChatGPT */
-/* builds bitvector visualization with css grid using 32 equal columns
-   and highlight class changes selected bit styling as query moves through data */
     #bit-sequence {
       color: var(--green);
     }
@@ -458,9 +455,6 @@
 
       font-size: 14px;
     }
-/* adapted from ChatGPT */
-/* builds paired bitvector layout using nested css grids
-   outer grid separates superblocks and inner grids divide each superblock into smaller blocks */
     #structure {
       position: absolute;
 
@@ -851,12 +845,6 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-/* adapted from ChatGPT */
-
-/* i wanted to make the website repsonsive across mobile deivces, so i had AI change the sizes of elements accordingly */
-
-/* detects screens below 700px using media query, hides mouse cursor,
-   resizes layout, and displays touch-based image switch button */
 
     @media (max-width: 760px) {
       body {
@@ -1037,10 +1025,6 @@
           </h2>
 
         </div>
-
-        <!-- adapted from ChatGPT -->
-        <!-- represents paired bitvector as 64k superblocks containing smaller 512-bit blocks
-             target block gets unique id so javascript can highlight query destination -->
 
         <div class="superblocks">
 
@@ -1317,9 +1301,6 @@
       return 0;
     }
 
-    // adapted from ChatGPT
-    // generates 85 dna fragments by randomly choosing bases from a c g t
-    // assigns random length position opacity and rotation then appends each fragment to dna field
     function createDNAField() {
       const letters = ["A", "C", "G", "T"];
 
@@ -1378,9 +1359,6 @@
       }
     }
 
-    // adapted from ChatGPT
-    // generates 256 bit elements with random 0 or 1 values
-    // appends each generated bit into grid used for bitvector visualization
     function createBits() {
       for (let i = 0; i < 256; i++) {
 
@@ -1406,9 +1384,6 @@
         clamp(opacity);
     }
 
-    // adapted from ChatGPT
-    // converts page scroll position into progress value from 0 to 1
-    // uses progress ranges to fade scenes highlight current bit and step through rank query
     function updateStory() {
 
       const rect =
